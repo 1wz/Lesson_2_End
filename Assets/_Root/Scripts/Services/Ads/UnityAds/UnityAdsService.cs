@@ -4,13 +4,11 @@ using UnityEngine.Advertisements;
 
 namespace Services.Ads.UnityAds
 {
-    internal class UnityAdsService : MonoBehaviour, IUnityAdsInitializationListener, IAdsService
+    internal class UnityAdsService :  IUnityAdsInitializationListener, IAdsService
     {
-        [Header("Components")]
-        [SerializeField] private UnityAdsSettings _settings;
+        private UnityAdsSettings _settings;
 
-        [field: Header("Events")]
-        [field: SerializeField] public UnityEvent Initialized { get; private set; }
+        public UnityEvent Initialized { get; private set; }
 
         public IAdsPlayer InterstitialPlayer { get; private set; }
         public IAdsPlayer RewardedPlayer { get; private set; }
@@ -18,8 +16,10 @@ namespace Services.Ads.UnityAds
         public bool IsInitialized => Advertisement.isInitialized;
 
 
-        private void Awake()
+        public UnityAdsService(UnityAdsSettings settings,UnityEvent initialized)
         {
+            _settings = settings;
+            Initialized = initialized??new UnityEvent();
             InitializeAds();
             InitializePlayers();
         }

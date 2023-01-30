@@ -3,12 +3,12 @@ using Services.Analytics.UnityAnalytics;
 
 namespace Services.Analytics
 {
-    internal class AnalyticsManager : MonoBehaviour
+    internal class AnalyticsManager 
     {
         private IAnalyticsService[] _services;
 
 
-        private void Awake() =>
+        public AnalyticsManager() =>
             _services = new IAnalyticsService[]
             {
                 new UnityAnalyticsService()

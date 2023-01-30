@@ -22,12 +22,12 @@ internal class MainController : BaseController
         _placeForUi = placeForUi;
         _profilePlayer = profilePlayer;
 
-        profilePlayer.CurrentState.SubscribeOnChange(OnChangeGameState);
-        OnChangeGameState(_profilePlayer.CurrentState.Value);
-
         _iapService = iapService;
         _adsService = adsService;
         _analytics = analytics;
+
+        profilePlayer.CurrentState.SubscribeOnChange(OnChangeGameState);
+        OnChangeGameState(_profilePlayer.CurrentState.Value);
     }
 
     protected override void OnDispose()
@@ -44,7 +44,7 @@ internal class MainController : BaseController
         switch (state)
         {
             case GameState.Start:
-                _mainMenuController = new MainMenuController(_placeForUi, _profilePlayer,_adsService);
+                _mainMenuController = new MainMenuController(_placeForUi, _profilePlayer,_adsService,_iapService);
                 _gameController?.Dispose();
                 break;
             case GameState.Game:

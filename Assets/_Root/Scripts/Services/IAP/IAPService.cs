@@ -4,15 +4,13 @@ using UnityEngine.Purchasing;
 
 namespace Services.IAP
 {
-    internal class IAPService : MonoBehaviour, IStoreListener, IIAPService
+    internal class IAPService :  IStoreListener, IIAPService
     {
-        [Header("Components")]
-        [SerializeField] private ProductLibrary _productLibrary;
+        private ProductLibrary _productLibrary;
 
-        [field: Header("Events")]
-        [field: SerializeField] public UnityEvent Initialized { get; private set; }
-        [field: SerializeField] public UnityEvent PurchaseSucceed { get; private set; }
-        [field: SerializeField] public UnityEvent PurchaseFailed { get; private set; }
+        public UnityEvent Initialized { get; private set; }
+        public UnityEvent PurchaseSucceed { get; private set; }
+        public UnityEvent PurchaseFailed { get; private set; }
         public bool IsInitialized { get; private set; }
 
         private IExtensionProvider _extensionProvider;
@@ -21,9 +19,15 @@ namespace Services.IAP
         private IStoreController _controller;
 
 
-        private void Awake() =>
+        public IAPService(ProductLibrary productLibrary, UnityEvent initialized,
+            UnityEvent purchaseSucceed, UnityEvent purchaseFailed)
+        {
+            _productLibrary = productLibrary;
+            Initialized = initialized??new UnityEvent();
+            PurchaseSucceed = purchaseSucceed?? new UnityEvent();
+            PurchaseFailed = purchaseFailed ?? new UnityEvent();
             InitializeProducts();
-
+        }
         private void InitializeProducts()
         {
             StandardPurchasingModule purchasingModule = StandardPurchasingModule.Instance();
